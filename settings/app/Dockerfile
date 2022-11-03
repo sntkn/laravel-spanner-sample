@@ -5,7 +5,7 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_INSTALL_VERSION=2.4.4
 
 WORKDIR /var/www
-RUN apt-get update && apt-get install -y git curl less autoconf zlib1g-dev
+RUN apt-get update && apt-get install -y git curl less autoconf zlib1g-dev unzip php-zip
 RUN pecl install grpc
 
 RUN echo "extension=grpc.so" >> /usr/local/etc/php/php.ini
