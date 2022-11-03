@@ -1,0 +1,5 @@
+SPANNER_PROJECT_ID=test-project
+SPANNER_INSTANCE_ID=test-instance
+SPANNER_DATABASE_ID=test-database
+SPANNER_EMULATOR_HOST=spanner:9010
+SPANNER_EMULATOR_URL=http://spanner:9020/

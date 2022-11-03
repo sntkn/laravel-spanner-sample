@@ -10,33 +10,24 @@ services:
 
   # Init (Create Instance)
   gcloud-spanner-init:
-    image: gcr.io/google.com/cloudsdktool/cloud-sdk:408.0.1-slim
+    build:
+      context: ./settings/gcloud-spanner-init
     command: >
       bash -c 'gcloud config configurations create emulator &&
               gcloud config set auth/disable_credentials true &&
-              gcloud config set project $${PROJECT_ID} &&
+              gcloud config set project $${SPANNER_PROJECT_ID} &&
               gcloud config set api_endpoint_overrides/spanner $${SPANNER_EMULATOR_URL} &&
               gcloud config set auth/disable_credentials true &&
-              gcloud spanner instances create $${INSTANCE_NAME} --config=emulator-config --description=Emulator --nodes=1
-              gcloud spanner databases create $${DATABASE_NAME} --instance=$${INSTANCE_NAME}'
-    environment:
-      PROJECT_ID: "test-project"
-      SPANNER_EMULATOR_URL: "http://spanner:9020/"
-      INSTANCE_NAME: "test-instance"
-      DATABASE_NAME: "test-database"
+              gcloud spanner instances create $${SPANNER_INSTANCE_ID} --config=emulator-config --description=Emulator --nodes=1
+              gcloud spanner databases create $${SPANNER_DATABASE_ID} --instance=$${SPANNER_INSTANCE_ID} --ddl-file=/schema.sql '
+    env_file: ./settings/common/env_local
   spanner-cli:
     image: sjdaws/spanner-cli:v1.0.0
-    environment:
-      SPANNER_EMULATOR_HOST: "spanner:9010"
+    env_file: ./settings/common/env_local
     command: ['sh', '-c', 'echo this container keep running && tail -f /dev/null']
   app:
     build:
       context: ./settings/app
     volumes:
       - ./app:/var/www
-    environment:
-      SPANNER_PROJECT_ID: "test-project"
-      SPANNER_INSTANCE_ID: "test-instance"
-      SPANNER_DATABASE_ID: "test-database"
-      SPANNER_EMULATOR_HOST: "spanner:9010"
-      SPANNER_EMULATOR_URL: "http://spanner:9020/"
+    env_file: ./settings/common/env_local

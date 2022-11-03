@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'spanner'),
 
     /*
     |--------------------------------------------------------------------------
@@ -92,7 +92,19 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
-
+        'spanner' => [
+            'driver' => 'spanner',
+            'instance' => env('SPANNER_INSTANCE_ID'),
+            'database' => env('SPANNER_DATABASE_ID'),
+            'client' => [
+                'projectId' => env('SPANNER_PROJECT_ID'),
+            ],
+            // CacheSessionPool options
+            'session_pool' => [
+                'minSessions' => 10,
+                'maxSessions' => 500,
+            ],
+        ],
     ],
 
     /*
