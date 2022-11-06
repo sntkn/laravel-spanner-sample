@@ -31,3 +31,13 @@ services:
     volumes:
       - ./app:/var/www
     env_file: ./settings/common/env_local
+  web:
+    image: nginx
+    ports:
+      - 8000:80 
+    volumes:
+      - ./app:/var/www
+      - ./settings/web/default.conf:/etc/nginx/conf.d/default.conf
+    working_dir: /var/www
+    depends_on:
+      - app

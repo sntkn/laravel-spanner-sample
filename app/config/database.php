@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'spanner'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -104,6 +104,7 @@ return [
                 'minSessions' => 10,
                 'maxSessions' => 500,
             ],
+            'sessionNotFoundErrorMode' => 'CLEAR_SESSION_POOL',
         ],
     ],
 
