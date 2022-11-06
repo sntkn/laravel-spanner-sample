@@ -14,23 +14,23 @@ class SingersController extends Controller
 
     public function get(int $singerId)
     {
-        return Singer::find($singerId)?->toJson(JSON_PRETTY_PRINT);
+        return Singer::findOrFail($singerId)->toJson(JSON_PRETTY_PRINT);
     }
 
     public function store(Request $request)
     {
-        return Singer::create($request->all())?->toJson(JSON_PRETTY_PRINT);
+        return Singer::create($request->all())->toJson(JSON_PRETTY_PRINT);
     }
 
     public function update(Request $request, int $singerId)
     {
-        $singer = Singer::find($singerId);
-        $singer->update($request->all());
+        $singer = Singer::findOrFail($singerId);
+        $singer->fill($request->all())->save();
         return $singer->toJson(JSON_PRETTY_PRINT);
     }
 
     public function destroy(int $singerId)
     {
-        return Singer::find($singerId)->delete();
+        return Singer::findOrFail($singerId)->delete();
     }
 }

@@ -14,6 +14,7 @@ class Singer extends Model
     protected $keyType = 'int';
     public $timestamps = false;
     protected $fillable = [
+        'SingerId',
         'FirstName',
         'LastName',
     ];
